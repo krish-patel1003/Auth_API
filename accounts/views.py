@@ -59,7 +59,7 @@ class ProfileView(GenericAPIView):
         logged_in_user = request.user
         profile = Profile.objects.get(user=logged_in_user)
 
-        if not profile.exists():
+        if not profile:
             return Response(
                 {"error": "No Profile Found for the logged in User"}, 
                 status=status.HTTP_400_BAD_REQUEST
@@ -69,12 +69,12 @@ class ProfileView(GenericAPIView):
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
     
 
-    def put(self, request):
+    def patch(self, request):
 
         logged_in_user = request.user
         profile = Profile.objects.get(user=logged_in_user)
 
-        if not profile.exists():
+        if not profile:
             return Response(
                 {"error": "No Profile Found for the logged in User"}, 
                 status=status.HTTP_400_BAD_REQUEST
@@ -84,6 +84,7 @@ class ProfileView(GenericAPIView):
             data=request.data, instance=profile)
         
         if serializer.is_valid():
+            serializer.save()
             return Response(
                 {"data": serializer.data, "message":"profile updated"}, 
                 status=status.HTTP_200_OK

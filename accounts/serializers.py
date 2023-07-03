@@ -55,6 +55,18 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password', 'tokens')
+    
+    def get_tokens(self, instance):
+        '''
+        returns the object returned by tokens method in AUTH_USER_MODEL
+        '''
+
+        user = User.objects.get(email=instance['email'])
+        
+        return {
+            "refresh_token": user.tokens()['refresh_token'],
+            "access_token": user.tokens()["access_token"]
+        }
 
     
     def validate(self, attrs):
@@ -86,3 +98,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ("id", "user", "first_name", "last_name", "bio")
+        extra_kwargs = {"user": {"read_only": True}}
