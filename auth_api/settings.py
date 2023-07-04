@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure--epca%6j-)thlt1@)-hy%9x5ms)7_5g!7^^c2!$=h91$=k&8(=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "https://auth-api-xlld.onrender.com"]
 
 
 # Application definition
